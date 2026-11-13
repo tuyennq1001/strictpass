@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "StrictPass — Password Generator",
   "version": "1.0.0",
-  "author": "Terry",
+  "author": "Terry Nguyen",
   "homepage_url": "https://tuyennq1001.github.io/strictpass/",
   "description": "StrictPass: Minimalist CSPRNG password generator that strictly guarantees every selected character group is included.",
   "action": {

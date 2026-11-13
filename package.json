@@ -1,7 +1,7 @@
 {
   "name": "strictpass",
   "version": "1.0.0",
-  "author": "Terry",
+  "author": "Terry Nguyen",
   "private": true,
   "type": "module",
   "description": "StrictPass — Strict-inclusion CSPRNG Password Generator Chrome Extension (Manifest V3)",
