@@ -677,6 +677,48 @@ code {
   color: var(--text-secondary);
 }
 
+/* Extension Screenshots Preview */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.preview-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.preview-caption {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.preview-caption strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.preview-caption span {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
 /* Privacy Card */
 .privacy-card {
   background: var(--bg-surface);
@@ -835,6 +877,10 @@ code {
 
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .preview-grid {
+    grid-template-columns: 1fr;
   }
 
   .site-nav {
