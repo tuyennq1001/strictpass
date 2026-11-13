@@ -150,10 +150,6 @@ body {
   flex-shrink: 0;
 }
 
-.brand-sep {
-  color: var(--text-muted);
-}
-
 .brand-highlight {
   color: var(--status-strong);
   font-weight: 600;

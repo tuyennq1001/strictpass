@@ -30,15 +30,15 @@
     </filter>
   </defs>
 
-  <!-- Apple Squircle Base -->
-  <rect x="6" y="6" width="116" height="116" rx="28" ry="28" fill="url(#bgGrad)" />
-  <rect x="6" y="6" width="116" height="116" rx="28" ry="28" fill="url(#sheenGrad)" />
+  <!-- Apple Squircle Base (8px grid-aligned for 16/32/48/128) -->
+  <rect x="8" y="8" width="112" height="112" rx="24" ry="24" fill="url(#bgGrad)" />
+  <rect x="8" y="8" width="112" height="112" rx="24" ry="24" fill="url(#sheenGrad)" />
   <!-- Hairline Inner Border -->
-  <rect x="7" y="7" width="114" height="114" rx="27" ry="27" fill="none" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1.5" />
+  <rect x="9" y="9" width="110" height="110" rx="23" ry="23" fill="none" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1.5" />
 
   <!-- Crisp Shield -->
   <path
-    d="M64 25 C64 25 46 31.5 34 34.5 C31.8 35 30.5 36.8 30.5 39 L30.5 60 C30.5 80.5 45.2 95.8 61.6 102.3 C63.2 102.9 64.8 102.9 66.4 102.3 C82.8 95.8 97.5 80.5 97.5 60 L97.5 39 C97.5 36.8 96.2 35 94 34.5 C82 31.5 64 25 64 25 Z"
+    d="M64 26 C64 26 46.5 32.3 35 35.2 C32.8 35.7 31.5 37.5 31.5 39.7 L31.5 60 C31.5 80 45.8 94.8 61.7 101.1 C63.2 101.7 64.8 101.7 66.3 101.1 C82.2 94.8 96.5 80 96.5 60 L96.5 39.7 C96.5 37.5 95.2 35.7 93 35.2 C81.5 32.3 64 26 64 26 Z"
     fill="url(#shieldGrad)"
     filter="url(#shieldShadow)"
   />
