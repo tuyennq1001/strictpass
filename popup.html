@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StrictPass</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header: Apple-style 3-Tab Segmented Control + Theme Button -->
+    <header class="top-bar">
+      <div class="segmented-control" role="tablist">
+        <button id="tabBtnMain" class="segment-btn active" role="tab" aria-selected="true" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Generator</span>
+        </button>
+        <button id="tabBtnHistory" class="segment-btn" role="tab" aria-selected="false" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>History</span>
+          <span id="historyBadge" class="history-badge hidden">0</span>
+        </button>
+        <button id="tabBtnAbout" class="segment-btn" role="tab" aria-selected="false" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>About</span>
+        </button>
+      </div>
+
+      <button id="themeToggleBtn" class="theme-btn" type="button" title="Switch Dark / Light appearance" aria-label="Toggle theme">
+        <!-- Sun Icon (shown in Dark mode) -->
+        <svg id="iconSun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon Icon (shown in Light mode) -->
+        <svg id="iconMoon" class="hidden" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- MAIN GENERATOR PANEL -->
+    <main id="tabPanelMain" class="panel">
+      <!-- Hero Password Card -->
+      <section id="passwordBox" class="hero-card" data-level="strong">
+        <div class="hero-input-row">
+          <!-- Crisp SVG Shield Status Icon -->
+          <div id="securityIconWrap" class="shield-badge" data-level="strong" title="Password Security">
+            <!-- Strong Shield Check -->
+            <svg id="svgShieldStrong" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+            <!-- Medium Shield Alert -->
+            <svg id="svgShieldMedium" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <!-- Weak Shield Off -->
+            <svg id="svgShieldWeak" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="9.5" y1="9.5" x2="14.5" y2="14.5"></line>
+              <line x1="14.5" y1="9.5" x2="9.5" y2="14.5"></line>
+            </svg>
+          </div>
+
+          <input
+            id="passwordOutput"
+            class="hero-password-input"
+            type="text"
+            spellcheck="false"
+            autocomplete="off"
+            aria-label="Generated or tested password"
+            title="Click to edit or paste any password to check strength"
+          />
+
+          <div class="hero-actions">
+            <button id="regenerateBtn" class="action-icon-btn" type="button" title="Regenerate password" aria-label="Regenerate password">
+              <svg id="regenerateSvg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 2v6h-6"></path>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                <path d="M3 22v-6h6"></path>
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+              </svg>
+            </button>
+            <button id="copyBtn" class="action-icon-btn copy-icon-btn" type="button" title="Copy password" aria-label="Copy password">
+              <svg id="copySvgIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg id="checkSvgIcon" class="hidden" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4-Capsule Segmented Strength Meter -->
+        <div class="strength-meter-wrap">
+          <div id="strengthCapsules" class="strength-capsules" data-score="4" data-level="strong">
+            <span class="capsule"></span>
+            <span class="capsule"></span>
+            <span class="capsule"></span>
+            <span class="capsule"></span>
+          </div>
+          <div class="strength-meta-row">
+            <span id="strengthLabel" class="strength-status-text" data-level="strong">Very Strong</span>
+            <span id="entropyBits" class="entropy-pill">105 bits</span>
+          </div>
+        </div>
+
+        <!-- Optional NATO Phonetic Mnemonic Guide -->
+        <div id="mnemonicBox" class="mnemonic-drawer hidden" aria-live="polite"></div>
+      </section>
+
+      <!-- Length Control Card with - / + Stepper Buttons -->
+      <section class="surface-card length-card">
+        <div class="length-top-row">
+          <div class="length-title-group">
+            <span class="card-label">Length</span>
+            <span id="minLengthNotice" class="min-pill hidden">Min 4</span>
+          </div>
+          <div class="length-stepper">
+            <button id="btnLengthMinus" class="stepper-btn" type="button" title="Decrease length (-1)" aria-label="Decrease length">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+            <input
+              id="lengthNumber"
+              class="length-badge-input"
+              type="number"
+              min="1"
+              max="99"
+              value="16"
+              aria-label="Password length"
+            />
+            <button id="btnLengthPlus" class="stepper-btn" type="button" title="Increase length (+1)" aria-label="Increase length">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="slider-wrap">
+          <input
+            id="lengthRange"
+            class="apple-slider"
+            type="range"
+            min="1"
+            max="99"
+            value="16"
+          />
+        </div>
+      </section>
+
+      <!-- 4-Pill Character Set Selector + Collapsible Special Input -->
+      <section class="surface-card charsets-card">
+        <div class="card-header-row">
+          <span class="card-label">Character Sets</span>
+          <span class="card-hint">Tap to toggle</span>
+        </div>
+
+        <div class="charset-pills-grid">
+          <button type="button" id="pillUppercase" class="charset-pill active" aria-pressed="true">
+            <span class="pill-check-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="pill-code">A–Z</span>
+            <span class="pill-name">Upper</span>
+          </button>
+
+          <button type="button" id="pillLowercase" class="charset-pill active" aria-pressed="true">
+            <span class="pill-check-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="pill-code">a–z</span>
+            <span class="pill-name">Lower</span>
+          </button>
+
+          <button type="button" id="pillNumbers" class="charset-pill active" aria-pressed="true">
+            <span class="pill-check-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="pill-code">0–9</span>
+            <span class="pill-name">Digits</span>
+          </button>
+
+          <button type="button" id="pillSpecial" class="charset-pill active" aria-pressed="true">
+            <span class="pill-check-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="pill-code">!@#</span>
+            <span class="pill-name">Special</span>
+          </button>
+        </div>
+
+        <!-- Auto-collapsing Special Characters Editor -->
+        <div id="specialEditorDrawer" class="special-editor-drawer">
+          <div class="special-editor-header">
+            <label for="txtSpecialChars" class="special-editor-label">Allowed special characters</label>
+            <button id="resetSpecialBtn" class="reset-link-btn" type="button" title="Restore default special characters">
+              Reset default
+            </button>
+          </div>
+          <input
+            type="text"
+            id="txtSpecialChars"
+            class="special-pool-input"
+            value="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~"
+            spellcheck="false"
+            autocomplete="off"
+            placeholder="!&quot;#$%&amp;'()*+..."
+          />
+        </div>
+      </section>
+
+      <!-- Apple Grouped Switch List for Rules -->
+      <section class="surface-card switches-card">
+        <label class="ios-row">
+          <div class="ios-row-text">
+            <span class="ios-row-title">Strict Inclusion</span>
+            <span class="ios-row-sub">Guarantee &ge; 1 char from every active set</span>
+          </div>
+          <input type="checkbox" id="chkStrict" checked />
+          <span class="ios-switch"></span>
+        </label>
+
+        <div class="row-divider"></div>
+
+        <label class="ios-row">
+          <div class="ios-row-text">
+            <span class="ios-row-title">Exclude Similar</span>
+            <span class="ios-row-sub">Avoid ambiguous chars (<code>O, 0, l, 1, I, |</code>)</span>
+          </div>
+          <input type="checkbox" id="chkExcludeConfusing" />
+          <span class="ios-switch"></span>
+        </label>
+
+        <div class="row-divider"></div>
+
+        <label class="ios-row">
+          <div class="ios-row-text">
+            <span class="ios-row-title">Phonetic Guide</span>
+            <span class="ios-row-sub">Show NATO spelling beneath password</span>
+          </div>
+          <input type="checkbox" id="chkShowMnemonic" />
+          <span class="ios-switch"></span>
+        </label>
+      </section>
+    </main>
+
+    <!-- HISTORY PANEL -->
+    <section id="tabPanelHistory" class="panel hidden">
+      <div class="surface-card history-card">
+        <ul id="historyList" class="history-list"></ul>
+
+        <div id="historyEmpty" class="history-empty">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <p>No copied passwords yet</p>
+          <span>Passwords you copy will be saved here</span>
+        </div>
+
+        <div class="history-footer">
+          <button id="clearHistoryBtn" class="clear-pill-btn" type="button">Clear All</button>
+
+          <label class="ios-inline-switch">
+            <span class="ios-inline-label">Save History</span>
+            <input type="checkbox" id="chkEnableHistory" checked />
+            <span class="ios-switch small"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT PANEL -->
+    <section id="tabPanelAbout" class="panel hidden">
+      <div class="surface-card about-card">
+        <div class="about-hero">
+          <div class="about-icon-wrap">
+            <img src="icons/logo.svg" alt="StrictPass Logo" class="about-logo-img" width="46" height="46" />
+          </div>
+          <div class="about-title-wrap">
+            <h2 class="about-title">StrictPass</h2>
+            <div class="about-badges">
+              <span class="about-badge pro">PRO</span>
+              <span class="about-badge ver">v1.0.0</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="about-summary">
+          A minimalist, cryptographically secure password generator crafted with Apple design principles and 100% deterministic rule adherence.
+        </p>
+
+        <div class="about-features-list">
+          <div class="about-feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <strong>Strict Guarantee</strong>
+              <span>Guarantees at least 1 character from every active group with Fisher-Yates CSPRNG shuffle.</span>
+            </div>
+          </div>
+
+          <div class="about-feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <strong>100% Client-Side Privacy</strong>
+              <span>Zero network requests, zero telemetry, zero cookies. Everything stays in your browser.</span>
+            </div>
+          </div>
+
+          <div class="about-feature-item">
+            <div class="feature-icon-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <strong>Real-Time Strength Meter</strong>
+              <span>Inspects entropy bits and strength dynamically for both generated and custom-typed passwords.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-footer">
+          <span>Designed for speed, clarity, and security.</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
